@@ -153,3 +153,9 @@ cython_debug/
 
 # Logs
 *.log
+bbfbfdb7-3bf5-4152-832e-da8b9801b448/data_level0.bin
+bbfbfdb7-3bf5-4152-832e-da8b9801b448/header.bin
+bbfbfdb7-3bf5-4152-832e-da8b9801b448/length.bin
+bbfbfdb7-3bf5-4152-832e-da8b9801b448/link_lists.bin
+chroma.sqlite3
+query_log.xlsx
