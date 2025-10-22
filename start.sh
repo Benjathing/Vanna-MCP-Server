@@ -3,35 +3,45 @@
 # Define a function to handle graceful shutdown
 _shutdown() {
   echo "Caught signal! Shutting down gracefully..."
-  # Send SIGTERM to the uvicorn process
-  kill -TERM "$uvicorn_pid"
-  # Wait for the uvicorn process to terminate
-  wait "$uvicorn_pid"
-  echo "Uvicorn shut down."
+  # Send SIGTERM to all background processes
+  kill -TERM "$uvicorn_app_pid" "$uvx_mcpo_pid"
+  # Wait for all background processes to terminate
+  wait "$uvicorn_app_pid" "$uvx_mcpo_pid"
+  echo "All background servers shut down."
 }
 
 # Trap SIGTERM and SIGINT signals and call the shutdown function
 trap _shutdown SIGTERM SIGINT
 
-# Start the uvicorn server in the background
-echo "Starting uvicorn server..."
+# Start the uvicorn server for app:app in the background
+echo "Starting uvicorn server for app:app on port 8000..."
 uvicorn app:app --host 0.0.0.0 --port 8000 --timeout-keep-alive 300 &
-# Store its PID
-uvicorn_pid=$!
+uvicorn_app_pid=$!
 
-# Wait for the server to be up and running by polling the /health endpoint
-echo "Waiting for uvicorn server to start..."
+# Start the uvx mcpo server in the background
+echo "Starting uvx mcpo server on port 8001..."
+uvx mcpo --port 8001 --server-type "streamable-http" -- "http://localhost:8000/mcp" &
+uvx_mcpo_pid=$!
+
+# Wait for both servers to be up and running
+echo "Waiting for uvicorn server on port 8000 to start..."
 while ! curl -s --fail http://localhost:8000/health > /dev/null; do
     sleep 1
 done
-echo "Uvicorn server started."
+echo "Uvicorn server on port 8000 started."
 
-# Start the uvx mcpo server in the foreground
-# This will keep the script running and will be terminated when the script exits
-echo "Starting uvx mcpo server..."
-uvx mcpo --port 8001 --server-type "streamable-http" -- "http://localhost:8000/mcp"
+echo "Waiting for uvx mcpo server on port 8001 to start..."
+# Assuming mcpo also has a health endpoint or just waits for it to be listening
+# For now, we'll just check if the port is open. A proper health check would be better.
+while ! nc -z localhost 8001; do
+    sleep 1
+done
+echo "uvx mcpo server on port 8001 started."
 
-# The script will wait here until the uvx command exits or a signal is caught.
-# The 'wait' command ensures that the script waits for the background process 
-# to finish if it hasn't already, which is handled by our trap.
-wait "$uvicorn_pid"
+# Start the proxy server in the foreground
+echo "Starting proxy server on port 3000..."
+uvicorn proxy:app --host 0.0.0.0 --port 3000 --timeout-keep-alive 300
+
+# The script will wait here until the proxy uvicorn command exits or a signal is caught.
+# The 'wait' command in _shutdown ensures that the background processes are handled.
+wait "$uvicorn_app_pid" "$uvx_mcpo_pid"
