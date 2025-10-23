@@ -1,0 +1,40 @@
+name: vanna-mcp-server-qdrant
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "${QDRANT_PORT}:${QDRANT_PORT}"
+    volumes:
+      - qdrant_data:/qdrant/data
+    environment:
+      QDRANT__SERVICE__GRPC_PORT: ${QDRANT_PORT}
+      QDRANT__SERVICE__HTTP_PORT: ${QDRANT_PORT}
+
+  vanna-mcp-server:
+    build: ..
+    image: ${DOCKER_REPOSITORY}/${VANNA_IMAGE}
+    container_name: vanna-mcp-server
+    ports:
+      - "3000:3000" # Proxy port
+    environment:
+      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT}
+      OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY} # Using AZURE_OPENAI_API_KEY from .env
+      QDRANT_URL: http://qdrant:${QDRANT_PORT}
+      ODBC_CONN_STRING: "Driver=${ODBC_DRIVER};Server=tcp:${DB_SERVER},1433;Database=${DB_NAME};${DB_USERNAME:+Uid=${DB_USERNAME};}${DB_PASSWORD:+Pwd=${DB_PASSWORD};}Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+      DB_DESCRIPTION: ${DB_DESCRIPTION}
+      EXCEL_LOG_PATH: /app/logs/excel_log.xlsx # Default path, user can override
+      ANONYMIZED_TELEMETERY: "False"
+      AZURE_TENANT_ID: ${AZURE_TENANT_ID}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
+      MCP_SERVER_PORT: ${MCP_SERVER_PORT}
+      MCPO_SERVER_PORT: ${MCPO_SERVER_PORT}
+      WEB_SERVER_PORT: ${WEB_SERVER_PORT}
+    depends_on:
+      - qdrant
+    volumes:
+      - ./logs:/app/logs # Mount a volume for logs
+
+volumes:
+  qdrant_data:

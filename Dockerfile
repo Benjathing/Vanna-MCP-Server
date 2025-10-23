@@ -30,8 +30,7 @@ COPY . .
 RUN chmod +x /app/start.sh
 
 # Expose the port the app runs on
-EXPOSE 8000
-EXPOSE 8001
+EXPOSE 3000
 
 # Define the command to run the application
 # This uses the asgi_app object defined in your app.py

@@ -12,7 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import inspect
 
 #import weaviate
-from vanna.chromadb import ChromaDB_VectorStore
+#from vanna.chromadb import ChromaDB_VectorStore
+from vanna.qdrant import Qdrant_VectorStore
+from qdrant_client import QdrantClient
 import pandas as pd
 #from vanna.weaviate.weaviate_vector import WeaviateDatabase
 from vanna.base import VannaBase
@@ -88,12 +90,16 @@ class LangChainAzureChat(VannaBase):
         output_tokens = response.usage_metadata.get('output_tokens')
         return response.content, input_tokens, output_tokens
 
-class MyVanna(ChromaDB_VectorStore, LangChainAzureChat):
+class MyVanna(
+    #ChromaDB_VectorStore, 
+    Qdrant_VectorStore,
+    LangChainAzureChat):
     azure_credentials: DefaultAzureCredential|None = None
     
     def __init__(self, config=None):
         self.config = config or {}
-        ChromaDB_VectorStore.__init__(self, config=config)
+        #ChromaDB_VectorStore.__init__(self, config=config)
+        Qdrant_VectorStore.__init__(self, config=config)
         LangChainAzureChat.__init__(self, config=config)
         
     def run_training_plan(self):
@@ -143,7 +149,7 @@ class MyVanna(ChromaDB_VectorStore, LangChainAzureChat):
                 " run command: pip install sqlalchemy"
             )
         if "uid" not in odbc_conn_str and "pwd" not in odbc_conn_str:
-            self.azure_credentials = DefaultAzureCredential(exclude_environment_credential=True, exclude_shared_token_cache_credential=True)
+            self.azure_credentials = DefaultAzureCredential(exclude_shared_token_cache_credential=True)
 
         connection_url = URL.create(
             "mssql+pyodbc", query={"odbc_connect": odbc_conn_str}
@@ -218,8 +224,7 @@ mcp_instructions = "A server that uses Vanna AI to answer questions about a {}".
 async def mcp_vanna_lifespan(mcp_instance: FastMCP) -> AsyncIterator[MCPLifeSpanContext]:
     logging.info("🚀 Vanna AI instance starting up (MCP internal lifespan)...")
     config = {
-        "qdrant_url": os.getenv("QDRANT_URL"),
-        "qdrant_api_key": os.getenv("QDRANT_API_KEY"),
+        "url": os.getenv("QDRANT_URL")
     }
     
     odbc_conn_str = os.getenv("ODBC_CONN_STR")
