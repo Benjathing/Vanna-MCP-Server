@@ -119,6 +119,7 @@ python-dotenv==1.1.1
 python-multipart==0.0.20
 pytz==2025.2
 pyyaml==6.0.2
+pytest
 qdrant-client==1.14.0
 referencing==0.36.2
 regex==2024.11.6

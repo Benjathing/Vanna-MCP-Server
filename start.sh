@@ -23,11 +23,6 @@ echo "Starting uvicorn server for app:app on port 8000..."
 uvicorn app:app --host 0.0.0.0 --port ${MCP_SERVER_PORT} --timeout-keep-alive 300 &
 uvicorn_app_pid=$!
 
-# Start the uvx mcpo server on port 8001 in the background
-echo "Starting uvx mcpo server on port 8001..."
-uvx mcpo --port ${MCPO_SERVER_PORT} --server-type "streamable-http" -- "http://localhost:${MCP_SERVER_PORT}/mcp" &
-uvx_mcpo_pid=$!
-
 # Start the Vanna web app on port 8002 in the background
 echo "Starting Vanna web app on port 8002..."
 uvicorn vanna_web_app:app --host 0.0.0.0 --port ${WEB_SERVER_PORT} --timeout-keep-alive 300 &
@@ -40,6 +35,12 @@ while ! curl -s --fail http://localhost:${MCP_SERVER_PORT}/health > /dev/null; d
 done
 echo "Uvicorn server on port 8000 started."
 
+# Start the uvx mcpo server on port 8001 in the background
+echo "Starting uvx mcpo server on port 8001..."
+uvx mcpo --port ${MCPO_SERVER_PORT} --server-type "streamable-http" -- "http://localhost:${MCP_SERVER_PORT}/mcp" &
+uvx_mcpo_pid=$!
+
+# Wait for uvx mcpo server to be up and running
 echo "Waiting for uvx mcpo server on port ${MCPO_SERVER_PORT} to start..."
 while ! nc -z localhost ${MCPO_SERVER_PORT}; do
     sleep 1

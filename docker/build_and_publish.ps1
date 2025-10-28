@@ -44,13 +44,8 @@ $versionToParse = "0.0.0" # Initialize with default
 try {
     $allTags = az acr repository show-tags --name $DOCKER_REPOSITORY --repository $imageName --query "[]" --output tsv | Sort-Object -Descending
 
-    $semanticTags = @()
-    foreach ($tag in $allTags) {
-        # Basic check for semantic versioning pattern (X.Y.Z or X.Y.Z-alpha)
-        if ($tag -match "^\d+\.\d+\.\d+(-alpha)?$") {
-            $semanticTags += $tag
-        }
-    }
+    $semanticTags = @($allTags | Where-Object { $_ -match "^\d+\.\d+\.\d+(-alpha)?$" })
+
 
     if ($semanticTags.Count -eq 0) {
         Write-Host "No semantic version tags found for $imageName. Starting with 0.0.0."
@@ -58,10 +53,10 @@ try {
     } else {
         # Sort semantic tags to find the highest version
         # This requires a custom sort for semantic versioning
-        $sortedSemanticTags = $semanticTags | Sort-Object {
+        $sortedSemanticTags = @($semanticTags | Sort-Object {
             $parts = $_.Replace("-alpha", "").Split(".")
             [version]"$($parts[0]).$($parts[1]).$($parts[2])"
-        } -Descending
+        } -Descending)
 
         $latestSemanticTag = $sortedSemanticTags[0]
         Write-Host "Latest semantic tag found: $latestSemanticTag"

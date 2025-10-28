@@ -1,57 +1,84 @@
+type: Microsoft.App/containerApps
+location: australiaeast
+identity:
+  type: SystemAssigned
 properties:
-  volumes:
-  - name: qdrant_data
-    storageType: EmptyDir
-  containers:
-  - name: qdrant
-    resources:
-      cpu: 0.5
-      memory: 1.0Gi
-    image: qdrant/qdrant:latest
-    volumeMounts:
-    - mountPath: /qdrant/data
-      volumeName: qdrant_data
-    env:
-    - name: QDRANT__SERVICE__GRPC_PORT
-      value: "6333"
-    - name: QDRANT__SERVICE__HTTP_PORT
-      value: "6333"
-  - name: vanna-mcp-server
-    resources:
-      cpu: 0.5
-      memory: 1.0Gi
-    image: crbdllmprodase01.azurecr.io/vanna-mcp-server-qdrant:latest
-    volumeMounts:
-    - mountPath: /app/logs
-      volumeName: C__docker_VannaMCP_vanna_mcp_server_docker_logs
-    env:
-    - name: ANONYMIZED_TELEMETERY
-      value: "False"
-    - name: DB_DESCRIPTION
-      value: Project descriptions, budgets, and start dates for different Clients
-    - name: AZURE_OPENAI_ENDPOINT
-      value: https://openai-aueast.openai.azure.com
-    - name: ODBC_CONN_STRING
-      value: Driver={ODBC Driver 18 for SQL Server};Server=tcp:sql-is-vanna-d-ae-01.database.windows.net,1433;Database=sqldbis-vanna-d-ae-01;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
-    - name: WEB_SERVER_PORT
-      value: "8002"
-    - name: QDRANT_URL
-      value: http://qdrant:6333
-    - name: MCP_SERVER_PORT
-      value: "8000"
-    - secretRef: OPENAI_API_KEY
-      name: OPENAI_API_KEY
-    - name: MCPO_SERVER_PORT
-      value: "8001"
-    - name: EXCEL_LOG_PATH
-      value: /app/logs/excel_log.xlsx
-  scale:
-    minReplicas: 1
-    maxReplicas: 3
-  secrets:
-  - name: OPENAI_API_KEY
-    value: 2b9b5ba214ab41aeb3d89617c91f3dc2
-  ingress:
-    targetPort: 3000
-    external: true
+  environmentId: /subscriptions/a62cf7f5-1856-4cac-9748-fd26fee7c27d/resourceGroups/rg-is-gpt-dev-aue/providers/Microsoft.App/managedEnvironments/acae-is-gpt-dev-aue-03
+  configuration:
+    registries:
+    - username: acriscommon
+      server: acriscommon.azurecr.io
+      passwordSecretRef: acr-password
+    secrets:
+    - name: openai-api-key
+      value: <secret>
+    - name: acr-password
+      value: <secret>
+    ingress:
+      allowInsecure: false
+      targetPort: 3000
+      clientCertificateMode: accept
+      external: true
+      corsPolicy:
+        maxAge: 3600
+        exposeHeaders:
+        - X-Custom-Header
+        allowCredentials: false
+        allowedOrigins:
+        - '*'
+        allowedHeaders:
+        - Authorization
+        - Content-Type
+  template:
+    containers:
+    - resources:
+        memory: 1.0Gi
+        cpu: 0.5
+      volumeMounts:
+      - volumeName: c--docker-vannamcp-vanna-mcp-server-docker-logs
+        mountPath: /app/logs
+      env:
+      - name: DB_DESCRIPTION
+        value: Project descriptions, budgets, and start dates for different Clients
+      - name: ANONYMIZED_TELEMETERY
+        value: "False"
+      - secretRef: openai-api-key
+        name: OPENAI_API_KEY
+      - name: EXCEL_LOG_PATH
+        value: /app/logs/excel_log.xlsx
+      - name: ODBC_CONN_STRING
+        value: Driver=ODBC Driver 18 for SQL Server;Server=tcp:sql-is-vanna-d-ae-01.database.windows.net,1433;Database=sqldbis-vanna-d-ae-01;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
+      - name: AZURE_OPENAI_ENDPOINT
+        value: https://openai-aueast.openai.azure.com
+      - name: QDRANT_URL
+        value: http://localhost:6333
+      - name: MCPO_SERVER_PORT
+        value: "8001"
+      - name: WEB_SERVER_PORT
+        value: "8002"
+      - name: MCP_SERVER_PORT
+        value: "8000"
+      name: vanna-mcp-server
+      image: acriscommon.azurecr.io/vanna-mcp-server-qdrant:latest
+    - resources:
+        memory: 1.0Gi
+        cpu: 0.5
+      volumeMounts:
+      - volumeName: qdrant-data
+        mountPath: /qdrant/data
+      env:
+      - name: QDRANT__SERVICE__GRPC_PORT
+        value: "6334"
+      - name: QDRANT__SERVICE__HTTP_PORT
+        value: "6333"
+      name: qdrant
+      image: qdrant/qdrant:latest
+    volumes:
+    - name: c--docker-vannamcp-vanna-mcp-server-docker-logs
+      storageType: EmptyDir
+    - name: qdrant-data
+      storageType: EmptyDir
+    scale:
+      minReplicas: 1
+      maxReplicas: 3
 

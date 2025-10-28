@@ -2,13 +2,14 @@ name: vanna-mcp-server-qdrant
 services:
   qdrant:
     image: qdrant/qdrant:latest
-    container_name: qdrant
+    container_name: qdrant-vanna
     ports:
       - "${QDRANT_PORT}:${QDRANT_PORT}"
+      - "${QDRANT_GRPC_PORT}:${QDRANT_GRPC_PORT}"
     volumes:
       - qdrant_data:/qdrant/data
     environment:
-      QDRANT__SERVICE__GRPC_PORT: ${QDRANT_PORT}
+      QDRANT__SERVICE__GRPC_PORT: ${QDRANT_GRPC_PORT}
       QDRANT__SERVICE__HTTP_PORT: ${QDRANT_PORT}
 
   vanna-mcp-server:
@@ -20,7 +21,7 @@ services:
     environment:
       AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT}
       OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY} # Using AZURE_OPENAI_API_KEY from .env
-      QDRANT_URL: http://qdrant:${QDRANT_PORT}
+      QDRANT_URL: http://localhost:${QDRANT_PORT}
       ODBC_CONN_STRING: "Driver=${ODBC_DRIVER};Server=tcp:${DB_SERVER},1433;Database=${DB_NAME};${DB_USERNAME:+Uid=${DB_USERNAME};}${DB_PASSWORD:+Pwd=${DB_PASSWORD};}Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
       DB_DESCRIPTION: ${DB_DESCRIPTION}
       EXCEL_LOG_PATH: /app/logs/excel_log.xlsx # Default path, user can override
