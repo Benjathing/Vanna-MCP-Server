@@ -2,32 +2,23 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-from app import MyVanna # Import MyVanna from your existing app.py
+from vanna_instance import MyVanna # Import MyVanna from your new vanna_instance.py
 from vanna.flask import VannaFlaskApp
 import logging
+from a2wsgi import WSGIMiddleware
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Configuration for MyVanna
-config = {
-    "url": os.getenv("QDRANT_URL")
-}
+LOCK_FILE = "/tmp/vanna_mcp_server.lock"
 
-odbc_conn_str = os.getenv("ODBC_CONN_STR")
+class VannaWebApp:
+    def __init__(self, vn: MyVanna):
+        self.vn = vn
+        # Create the Vanna Flask app
+        vanna_flask_app_container = VannaFlaskApp(self.vn, allow_llm_to_see_data=True)
 
-# Instantiate MyVanna
-vn = MyVanna(config=config)
-logging.info("🔗 Connecting Vanna Web App to SQL database...")
-try:
-    vn.connect_to_mssql(odbc_conn_str)
-    logging.info("✅ Vanna Web App database connection successful.")
-except Exception as e:
-    logging.error(f"💥 VANNA WEB APP DATABASE CONNECTION FAILED: {e}", exc_info=True)
-    raise
+        # Wrap the Flask app with WSGIMiddleware to make it an ASGI app
+        self.app = WSGIMiddleware(vanna_flask_app_container.flask_app)
 
-# Create and run the Vanna Flask app
-app = VannaFlaskApp(vn, allow_llm_to_see_data=True)
-
-if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8002)
+    async def __call__(self, scope, receive, send):
+        await self.app(scope, receive, send)

@@ -1,0 +1,328 @@
+[
+    {
+        "Id": "0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047",
+        "Created": "2025-10-28T01:24:06.02434538Z",
+        "Path": "./entrypoint.sh",
+        "Args": [],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 20626,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2025-10-28T01:24:06.640956742Z",
+            "FinishedAt": "0001-01-01T00:00:00Z",
+            "Health": {
+                "Status": "unhealthy",
+                "FailingStreak": 15,
+                "Log": [
+                    {
+                        "Start": "2025-10-28T01:25:50.563170018Z",
+                        "End": "2025-10-28T01:25:50.635023688Z",
+                        "ExitCode": -1,
+                        "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"python\": executable file not found in $PATH: unknown"
+                    },
+                    {
+                        "Start": "2025-10-28T01:25:58.333230194Z",
+                        "End": "2025-10-28T01:25:58.391807287Z",
+                        "ExitCode": -1,
+                        "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"python\": executable file not found in $PATH: unknown"
+                    },
+                    {
+                        "Start": "2025-10-28T01:26:08.393317461Z",
+                        "End": "2025-10-28T01:26:08.452906141Z",
+                        "ExitCode": -1,
+                        "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"python\": executable file not found in $PATH: unknown"
+                    },
+                    {
+                        "Start": "2025-10-28T01:26:18.48174381Z",
+                        "End": "2025-10-28T01:26:18.549295466Z",
+                        "ExitCode": -1,
+                        "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"python\": executable file not found in $PATH: unknown"
+                    },
+                    {
+                        "Start": "2025-10-28T01:26:26.242518269Z",
+                        "End": "2025-10-28T01:26:26.327306244Z",
+                        "ExitCode": -1,
+                        "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"python\": executable file not found in $PATH: unknown"
+                    }
+                ]
+            }
+        },
+        "Image": "sha256:95c0f7f24ffed13cd9b3e5c9fd34ccf9c7c7dcc5c6b6f006203bf445f7069ca0",
+        "ResolvConfPath": "/var/lib/docker/containers/0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047/hostname",
+        "HostsPath": "/var/lib/docker/containers/0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047/hosts",
+        "LogPath": "/var/lib/docker/containers/0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047/0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047-json.log",
+        "Name": "/qdrant-vanna",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "vanna-mcp-server-qdrant_qdrant_data:/qdrant/data:rw"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "vanna-mcp-server-qdrant_default",
+            "PortBindings": {
+                "6333/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "6333"
+                    }
+                ],
+                "6334/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "6334"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": null,
+            "DnsSearch": null,
+            "ExtraHosts": [],
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware",
+                "/sys/devices/virtual/powercap"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "0fe8d52390fd935f2053d925a49efbb7980a9675ede8d4336c6cb449f1f5d047",
+                "LowerDir": "/var/lib/docker/overlay2/6a5f0a3f95467e04a54e84f09e09743e3603cd3ba174683991a5231f011c25e2-init/diff:/var/lib/docker/overlay2/dc8c79de447bb7e16b2afeea222fc31356ea23c916d1e369e5c9e1d22faf368c/diff:/var/lib/docker/overlay2/73238ced7b5b77ad06bbe41d9cbec6a3ddeed756a73aade9452826db8d45896c/diff:/var/lib/docker/overlay2/e0c83d6c22240c4dd6c09436b2b82e7fed3554c6521e846cd9542b9490d309d4/diff:/var/lib/docker/overlay2/19dbe76d0586b7c17d72b73232c53ba4a26e0bdcb4853b3fe35aa2b7a1365a2a/diff:/var/lib/docker/overlay2/e37d6e13bf21ce45b1ed6456a35fc496bf84057af9a698a1c1bccfec98adef00/diff:/var/lib/docker/overlay2/5b79125fabdb47d1fefd1ffa087c491f4387458c820231bd07c8dd2fd830ddd3/diff:/var/lib/docker/overlay2/495a1253e95682fe83649f8a39b982f63bd6063c60a35aca3db69d560ee798b5/diff:/var/lib/docker/overlay2/90ad80f9401d0fe349302265a9ef9fbcbf285b40044a349e6d0cb1fa630fd09c/diff:/var/lib/docker/overlay2/174a4d60680f0bdc7bf7ca70d7509d9f2854dcaeb5f8fbb2f4d4d62bc8093a12/diff:/var/lib/docker/overlay2/7af214784d37cc1a06bc43082601a69d20dbb0591bb706b59fd815396208780c/diff:/var/lib/docker/overlay2/fcd014f7a9ca7a41d18ca7f71cc0aa3efd2480549fb66dc9b61edf8d745a5bed/diff:/var/lib/docker/overlay2/42eef2fbd4eb3486904734297cda199d90261a742d9984490aef3d1a2bbe3102/diff:/var/lib/docker/overlay2/76e03935748d9b997350e0a8ccdd0da259645b81e9a0bbb713677fe521169cbe/diff:/var/lib/docker/overlay2/67d0da3bfd8b6a1e5d14683aa22ff1569cc685d60b399e48800efea3d4899897/diff",    
+                "MergedDir": "/var/lib/docker/overlay2/6a5f0a3f95467e04a54e84f09e09743e3603cd3ba174683991a5231f011c25e2/merged",
+                "UpperDir": "/var/lib/docker/overlay2/6a5f0a3f95467e04a54e84f09e09743e3603cd3ba174683991a5231f011c25e2/diff",
+                "WorkDir": "/var/lib/docker/overlay2/6a5f0a3f95467e04a54e84f09e09743e3603cd3ba174683991a5231f011c25e2/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "vanna-mcp-server-qdrant_qdrant_data",
+                "Source": "/var/lib/docker/volumes/vanna-mcp-server-qdrant_qdrant_data/_data",
+                "Destination": "/qdrant/data",
+                "Driver": "local",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "0fe8d52390fd",
+            "Domainname": "",
+            "User": "0:0",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "6333/tcp": {},
+                "6334/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "QDRANT__SERVICE__HTTP_PORT=6333",
+                "QDRANT__SERVICE__GRPC_PORT=6334",
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "DIR=",
+                "TZ=Etc/UTC",
+                "RUN_MODE=production"
+            ],
+            "Cmd": [
+                "./entrypoint.sh"
+            ],
+            "Healthcheck": {
+                "Test": [
+                    "CMD",
+                    "python",
+                    "-c",
+                    "import http.client; conn = http.client.HTTPConnection('localhost', 6333); conn.request('GET', '/health'); exit(0) if conn.getresponse().status == 200 else exit(1)"
+                ],
+                "Interval": 10000000000,
+                "Timeout": 5000000000,
+                "Retries": 5
+            },
+            "Image": "qdrant/qdrant:latest",
+            "Volumes": null,
+            "WorkingDir": "/qdrant",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "com.docker.compose.config-hash": "ec425d0957107c4ce198e1fd2b2c246d42cc7473c745b0c3f35ec39b297a1a43",
+                "com.docker.compose.container-number": "1",
+                "com.docker.compose.depends_on": "",
+                "com.docker.compose.image": "sha256:95c0f7f24ffed13cd9b3e5c9fd34ccf9c7c7dcc5c6b6f006203bf445f7069ca0",
+                "com.docker.compose.oneoff": "False",
+                "com.docker.compose.project": "vanna-mcp-server-qdrant",
+                "com.docker.compose.project.config_files": "C:\\docker\\VannaMCP\\vanna-mcp-server\\docker\\docker-compose.yml",
+                "com.docker.compose.project.working_dir": "C:\\docker\\VannaMCP\\vanna-mcp-server\\docker",
+                "com.docker.compose.replace": "qdrant-vanna",
+                "com.docker.compose.service": "qdrant",
+                "com.docker.compose.version": "2.39.2",
+                "org.opencontainers.image.description": "Official Qdrant image",
+                "org.opencontainers.image.documentation": "https://qdrant.com/docs",
+                "org.opencontainers.image.source": "https://github.com/qdrant/qdrant",
+                "org.opencontainers.image.title": "Qdrant",
+                "org.opencontainers.image.url": "https://qdrant.com/",
+                "org.opencontainers.image.vendor": "Qdrant",
+                "org.opencontainers.image.version": "v1.14.1"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "d66eb6f19fd27977e1ce19f2febf8d626b53011e7ade622b7d0c103524142b90",
+            "SandboxKey": "/var/run/docker/netns/d66eb6f19fd2",
+            "Ports": {
+                "6333/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "6333"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "6333"
+                    }
+                ],
+                "6334/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "6334"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "6334"
+                    }
+                ]
+            },
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "vanna-mcp-server-qdrant_default": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": [
+                        "qdrant-vanna",
+                        "qdrant"
+                    ],
+                    "MacAddress": "d6:a8:6d:d6:3f:c9",
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "d001f621b3ed51c6cb1ec77b525332d84c46f6089e65c9a701ba61e4106ddacc",
+                    "EndpointID": "f97972b9766ebc991cc61ceecd6d8fa1dc69079e93169783d1071948dd630f00",
+                    "Gateway": "172.22.0.1",
+                    "IPAddress": "172.22.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "qdrant-vanna",
+                        "qdrant",
+                        "0fe8d52390fd"
+                    ]
+                }
+            }
+        }
+    }
+]

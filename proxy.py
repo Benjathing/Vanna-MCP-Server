@@ -17,10 +17,10 @@ async def _proxy(request: Request):
         target_host = TARGET_MCPO_HOST
         # Strip /mcpo prefix when forwarding to the mcpo server
         url = httpx.URL(path=path[5:], query=request.url.query.encode("utf-8"))
-    elif path.startswith("/web"):
-        target_host = TARGET_WEB_HOST
-        # Strip /web prefix when forwarding to the web server
-        url = httpx.URL(path=path[4:], query=request.url.query.encode("utf-8"))
+    # elif path.startswith("/web"):
+    #     target_host = TARGET_WEB_HOST
+    #     # Strip /web prefix when forwarding to the web server
+    #     url = httpx.URL(path=path[4:], query=request.url.query.encode("utf-8"))
     else:
         target_host = TARGET_DEFAULT_HOST
         url = httpx.URL(path=path, query=request.url.query.encode("utf-8"))
@@ -32,7 +32,6 @@ async def _proxy(request: Request):
     
     rp_req = client.build_request(
         request.method,
-        url,
         headers=headers,
         content=request.stream(),
         url=f"{target_host}{url.path}?{url.query.decode('utf-8')}"

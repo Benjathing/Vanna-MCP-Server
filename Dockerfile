@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install system dependencies required for the ODBC driver
 # Based on Microsoft's official documentation for Debian
-RUN apt-get update && apt-get install -y curl apt-transport-https gnupg
+RUN apt-get update && apt-get install -y curl apt-transport-https gnupg netcat-traditional sed
 
 # Add Microsoft's official repository for ODBC
 RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg
@@ -22,6 +22,10 @@ COPY /odbc.ini /
 RUN odbcinst -i -s -f /odbc.ini -l
 RUN cat /etc/odbc.ini
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Patch the mcp library to increase the client timeout and verify the change
+RUN sed -i 's/timeout: float | timedelta = 30/timeout: float | timedelta = 120/' /usr/local/lib/python3.11/site-packages/mcp/client/streamable_http.py \
+    && grep -q 'timeout: float | timedelta = 120' /usr/local/lib/python3.11/site-packages/mcp/client/streamable_http.py
 
 # Copy the rest of the application code
 COPY . .
