@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "containerAppName": {
+      "value": "aca-is-vannamcp-ae01"
+    },
+    "vannaContainerImage": {
+      "value": "vanna-mcp-server-qdrant:latest"
+    },
+    "qdrantContainerImage": {
+      "value": "qdrant/qdrant:latest"
+    },
+    "containerAppHttpPort": {
+      "value": 3000
+    },
+    "openAiApiKey": {
+      "value": ""
+    },
+    "odbcConnString": {
+      "value": "Driver={ODBC Driver 18 for SQL Server};Server=tcp:<your-db-server>.database.windows.net,1433;Database=<your-db-name>;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+    },
+    "vannaCpuProvisioning": {
+      "value": 1
+    },
+    "vannaRamProvisioning": {
+      "value": "2.0Gi"
+    },
+    "qdrantCpuProvisioning": {
+      "value": 1
+    },
+    "qdrantRamProvisioning": {
+      "value": "2.0Gi"
+    },
+    "acrUsername": {
+      "value": "acraihubpocae01"
+    },
+    "acrPassword": {
+      "value": ""
+    },
+    "acrServer": {
+      "value": "acraihubpocae01.azurecr.io"
+    },
+    "containerAppEnvironmentName": {
+      "value": "appenv-aihub-poc-ae-01"
+    },
+    "infrastructureSubnetId": {
+      "value": "/subscriptions/ffc7ce20-1533-4547-abf8-71d5d651ebaf/resourceGroups/rg-aihubnetwork-poc-ae-01/providers/Microsoft.Network/virtualNetworks/vnet-aihub-poc-ae-01/subnets/subnet-aihub-capp-01"
+    },
+    "storageAccountName": {
+      "value": "staihubpocae02"
+    },
+    "storageShareName": {
+      "value": "vanna-qdrant-mcp03"
+    },
+    "primaryAccountKey": {
+      "value": ""
+    },
+    "azureOpenAiEndpoint": {
+      "value": "https://openai-aueast.openai.azure.com"
+    }
+  }
+}
