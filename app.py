@@ -245,6 +245,19 @@ async def run_sql(sql_query: str, ctx: Context[Any, MCPLifeSpanContext, Any]) ->
     return fetch_result
 
 @mcp_server.tool(
+    name="ask_and_run",
+    title="Ask a question and run the SQL",
+    description="Takes a plain English question, generates a SQL query, runs it against {}, and returns the result as a JSON string.".format(os.getenv("DB_DESCRIPTION", "financial database"))
+)
+async def ask_and_run(question: str, ctx: Context[Any, MCPLifeSpanContext, Any]) -> str:
+    vn_instance = ctx.request_context.lifespan_context.vn
+    sql_query = await ask_sql(question, ctx)
+    if sql_query.startswith("Could not generate"):
+        return sql_query
+    result = await run_sql(sql_query, ctx)
+    return result
+
+@mcp_server.tool(
     name="add_training",
     title="Add training data",
     description="Adds new training data to the vector store.",
