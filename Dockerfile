@@ -30,7 +30,8 @@ RUN sed -i 's/timeout: float | timedelta = 30/timeout: float | timedelta = 120/'
 # Copy the rest of the application code
 COPY . .
 
-# Make start.sh executable
+# Fix line endings and make start.sh executable
+RUN sed -i 's/\r$//' /app/start.sh
 RUN chmod +x /app/start.sh
 
 # Expose the port the app runs on
