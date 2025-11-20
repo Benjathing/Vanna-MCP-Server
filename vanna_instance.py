@@ -69,6 +69,7 @@ class MyVanna(Qdrant_VectorStore, LangChainAzureChat):
     def run_training_plan(self):
         VannaTraining_Information_schema = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS"
         try:
+            self._setup_collections() # Ensure collections are set up
             df_information_schema = self.run_sql(VannaTraining_Information_schema)
             plan = self.get_training_plan_generic(df_information_schema)
             self.train(plan=plan)
